@@ -74,10 +74,18 @@ int main() {
         case 10:
             StrList_reverse(strList);
             break;
-        
+        case 11:
+            StrList_clean(strList);
+
+           
+            break;
+        case 12:
+            StrList_sort(strList);
+            break;
         case 13:
             int isSort;
             isSort=StrList_isSorted(strList);
+            
             if(isSort){
                 printf("true \n");
             }
@@ -92,10 +100,9 @@ int main() {
      }}
 
   
-    while (choice != '0');
+    while (choice != 0);
        
-     printf("outtt");
-    free(line);
+    free(line); 
     StrList_free(strList);
     return 0;
-    }
+}
