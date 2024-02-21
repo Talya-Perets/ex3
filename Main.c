@@ -38,7 +38,6 @@ int main() {
             break;
         case 3:
             StrList_print(strList);
-            printf("\n");
             break;
         
         case 4:
