@@ -28,13 +28,15 @@ typedef struct _StrList nweStrList;
  */
 StrList* StrList_alloc();
 
-Node* Node_allic(char* data, Node* next);
+Node* Node_alloc(char* data, Node* next);
 
 /*
  * Frees the memory and resources allocated to StrList.
  * If StrList==NULL does nothing (same as free).
  */
 void StrList_free(StrList* StrList);
+
+void StrList_clean( StrList* StrList);
 
 /*
  * Returns the number of elements in the StrList.
