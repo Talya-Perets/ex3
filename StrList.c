@@ -153,6 +153,7 @@ void StrList_print(const StrList* StrList){
         printf("%s ",current->data);
         current = current->next;
     }   
+     printf("\n");
 }
 
 void StrList_printAt(const StrList* Strlist,int index){
