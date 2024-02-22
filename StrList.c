@@ -8,21 +8,31 @@ struct _StrList;
 typedef struct _StrList StrList;
 typedef struct Node Node;
 
+// Define the structure for a string list
+
 struct _StrList {
-    Node* head;
-    size_t size;
+    Node* head; // pointer to the first node in the list
+    size_t size; // size of the list
 };
 
+// Define the structure for a node in the list
+
 typedef struct Node {
-    char* data;
-    Node* next;
+    char* data; // string data
+    Node* next; // pointer to the next node
 } Node;
+
+// Function to allocate memory for a string list
 
 StrList* StrList_alloc() {
     StrList* list = (StrList*)malloc(sizeof(StrList));
+	
+	// Check if memory allocation failed
      if (list == NULL) {
             return NULL;
      }
+  // Initialize the head pointer to NULL and size to 0
+
     if (list != NULL) {
         list->head = NULL;
         list->size=0;
@@ -30,19 +40,25 @@ StrList* StrList_alloc() {
     return list;
 }
 
+// Allocate memory for a node
+
 Node* Node_alloc(char* data, Node* next){
      Node* newNode = (Node*)malloc(sizeof(Node));
          if (newNode == NULL) {
             return NULL;
         }
+	    // Set the data and next pointer of the new node
         newNode->data=data;
         newNode->next=next;
 return newNode;
 }
 
+// Free memory allocated for a string list
+
 void StrList_free(StrList* StrList) {
     if (StrList) {
         Node* current = StrList->head;
+	  // Loop through each node in the list
         while (current) {
             Node* next = current->next;
             free(current->data);
@@ -66,18 +82,23 @@ void StrList_clean(StrList* StrList) {
     }
 }
 
+// Get the size of a string list
 
 size_t StrList_size(const StrList* StrList){
    
     return StrList->size;
 }
 
+// Insert a new node with data at the end of the list
+
 void StrList_insertLast(StrList* StrList, const char* data) {
     if (StrList == NULL || data == NULL) {
         return;
     }
-    
+    // Allocate memory for the new data
+
     char* newData = (char*)malloc((strlen(data) + 1) * sizeof(char));
+ // Check if memory allocation failed
     if (newData == NULL) {
         return; 
     }   
@@ -98,12 +119,14 @@ void StrList_insertLast(StrList* StrList, const char* data) {
     StrList->size++;
 }
 
-
+\\Inserts a string in a specific place
 void StrList_insertAt(StrList* StrList, const char* data, int index) {
+	\\Checking the correctness of the input
     if (StrList == NULL || data == NULL || index < 0) {
         return; 
     }
-
+    
+    // Allocate memory for the new data
     char* newData = (char*)malloc((strlen(data) + 1) * sizeof(char));
     if (newData == NULL) {
         return; 
@@ -113,13 +136,14 @@ void StrList_insertAt(StrList* StrList, const char* data, int index) {
      Node* newNode=Node_alloc(newData,NULL);
     newNode->data =newData; 
    
-
     if (index == 0) {
         newNode->next = StrList->head;
         StrList->head = newNode;
         StrList->size++;
         return;
     }
+	    
+  \\Move through the list until you reach the desired location
 
     Node* current = StrList->head;
     for (int i = 0; i < index - 1 && current != NULL; i++) {
@@ -135,14 +159,14 @@ void StrList_insertAt(StrList* StrList, const char* data, int index) {
     StrList->size++;
 }
 
-
+\\Print the first string in the list if it exists
 char* StrList_firstData(const StrList* StrList){
     if (StrList->head) {
         return StrList->head->data;
     }
     return NULL;
 }
-
+\\Print the entire list as a string by looping through and printing it
 void StrList_print(const StrList* StrList){
   if(StrList==NULL||StrList->head==NULL){
     return;
@@ -155,8 +179,11 @@ void StrList_print(const StrList* StrList){
     }   
      printf("\n");
 }
-
+\\Go through the list until the desired member and print it
 void StrList_printAt(const StrList* Strlist,int index){
+	if(index<0){
+		return;
+	}
         Node* current = Strlist->head;
         for (int i = 0; i < index && current; i++) {
         current = current->next;
@@ -168,10 +195,14 @@ void StrList_printAt(const StrList* Strlist,int index){
 
 int StrList_printLen(const StrList* Strlist){
      Node* current = Strlist->head;
+     \\Initialize a variable that will count the characters
      int amountChars =0;
+	\\Go over the node in the list
      while (current)
      {
+	\\Adding the length of the string to the variable that ends the characters
         amountChars+=strlen(current->data);
+	 \\Advancing the pointer to the next member
         current=current->next;
     
      }
@@ -179,10 +210,17 @@ int StrList_printLen(const StrList* Strlist){
 }
 
 int StrList_count(StrList* StrList, const char* data){
+    if (StrList == NULL || data == NULL) {
+        return 0; 
+    }
+	\\Pointer to the beginning of the list
      Node* current = StrList->head;
+	\\Initialize a variable that will count the strings
      int count=0;
+	\\Go through the whole list
      while (current)
      {
+	\\Using a function that compares strings
         if(strcmp(current->data, data) == 0){
             count++;
         }
@@ -192,11 +230,14 @@ int StrList_count(StrList* StrList, const char* data){
 }
 
 void StrList_remove(StrList* StrList, const char* data) {
+    if(data==NULL||StrList==NULL){
+		return;}
+   
     Node* current = StrList->head;
     Node* prev = NULL;
     Node* temp;
 
-    while (current != NULL) {
+    while (current) {
         if (strcmp(current->data, data) == 0) {
             if (current == StrList->head) {
                 StrList->head = current->next;
