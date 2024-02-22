@@ -242,6 +242,20 @@ void StrList_removeAt(StrList* StrList, int index){
 
     }
 }
+StrList* StrList_clone(const StrList* StrList){
+    nweStrList* ret= StrList_alloc();
+	const Node* old= StrList->head;
+
+    Node** copy= &(ret->head);
+	ret->size= StrList->size;
+
+    while(old) {
+		*copy= Node_alloc(old->data,NULL);
+		old= old->next;
+		copy= &((*copy)->next);
+	}
+	return ret;
+}
 
 void StrList_reverse( StrList* StrList){
     Node* prev = NULL;
@@ -302,6 +316,7 @@ int StrList_isSorted(StrList* StrList){
     }
     return 1;
 }
+
 
 
 
