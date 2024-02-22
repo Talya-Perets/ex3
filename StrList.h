@@ -28,6 +28,10 @@ typedef struct _StrList nweStrList;
  */
 StrList* StrList_alloc();
 
+/*
+ * Allocates a new node.
+ */
+
 Node* Node_alloc(char* data, Node* next);
 
 /*
@@ -35,6 +39,10 @@ Node* Node_alloc(char* data, Node* next);
  * If StrList==NULL does nothing (same as free).
  */
 void StrList_free(StrList* StrList);
+
+/*
+ *Delete all nodes of the list but not the list itself
+ */
 
 void StrList_clean( StrList* StrList);
 
