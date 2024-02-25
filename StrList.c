@@ -240,7 +240,7 @@ void StrList_removeAt(StrList* StrList, int index){
     }
 }
 StrList* StrList_clone(const StrList* StrList){
-    StrList* ret = StrList_alloc();
+    nweStrList* ret = StrList_alloc();
     const Node* old = StrList->head;
     Node** copy = &(ret->head);
     ret->size = StrList->size;
