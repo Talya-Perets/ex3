@@ -148,10 +148,15 @@ void StrList_print(const StrList* StrList){
     return;
   }
     Node* current = StrList->head;
+    if(current){
+    printf("%s",current->data);
+    current = current->next;
+     }
     while (current)
     {
-        printf("%s ",current->data);
+        printf(" %s",current->data);
         current = current->next;
+        
     }   
      printf("\n");
 }
