@@ -8,30 +8,21 @@ struct _StrList;
 typedef struct _StrList StrList;
 typedef struct Node Node;
 
-// Define the structure of the linked list
-
 struct _StrList {
-    Node* head; // Pointer to the first node in the list
-    size_t size;  // Number of elements in the list
+    Node* head;
+    size_t size;
 };
 
-// Define the structure of a node in the linked list
-
 typedef struct Node {
-    char* data;  // Data stored in the node
-    Node* next;  // Pointer to the next node
+    char* data;
+    Node* next;
 } Node;
-
-// Function to allocate memory for a new empty StrList
 
 StrList* StrList_alloc() {
     StrList* list = (StrList*)malloc(sizeof(StrList));
      if (list == NULL) {
-         // if allocation failed
             return NULL;
      }
-        // Initialize the list
-
     if (list != NULL) {
         list->head = NULL;
         list->size=0;
@@ -39,7 +30,6 @@ StrList* StrList_alloc() {
     return list;
 }
 
-// Function to allocate memory for a new node with given data and next pointer
 Node* Node_alloc(char* data, Node* next){
      Node* newNode = (Node*)malloc(sizeof(Node));
          if (newNode == NULL) {
@@ -63,8 +53,6 @@ void StrList_free(StrList* StrList) {
     }
 }
 
-// Function to clean the StrList, freeing memory of all nodes but keeping the list structure
-
 void StrList_clean(StrList* StrList) {
     if (StrList) {
         Node* current = StrList->head;
@@ -78,29 +66,24 @@ void StrList_clean(StrList* StrList) {
     }
 }
 
-// Function to get the size of the StrList
 
 size_t StrList_size(const StrList* StrList){
    
     return StrList->size;
 }
-// Function to insert a new node with data at the end of the StrList
 
 void StrList_insertLast(StrList* StrList, const char* data) {
     if (StrList == NULL || data == NULL) {
         return;
     }
-       // Allocate memory for the new data
- 
+    
     char* newData = (char*)malloc((strlen(data) + 1) * sizeof(char));
     if (newData == NULL) {
-        return; // if allocation failed
+        return; 
     }   
     strcpy(newData,data);
-        // Create a new node
     Node* newNode = Node_alloc(newData,NULL);
-    
-    // Insert the new node at the end of the list
+
     if (StrList->head == NULL) {
         StrList->head = newNode;
         StrList->size++;
@@ -115,25 +98,21 @@ void StrList_insertLast(StrList* StrList, const char* data) {
     StrList->size++;
 }
 
-// Function to insert a new node with data at a specific index in the StrList
 
 void StrList_insertAt(StrList* StrList, const char* data, int index) {
     if (StrList == NULL || data == NULL || index < 0) {
         return; 
     }
-    // Allocate memory for the new data
+
     char* newData = (char*)malloc((strlen(data) + 1) * sizeof(char));
     if (newData == NULL) {
-        return; // if allocation failed
+        return; 
     } 
 
     strcpy(newData,data);
-        // Create a new node
-
      Node* newNode=Node_alloc(newData,NULL);
     newNode->data =newData; 
    
-    // Insert the new node at the specified index
 
     if (index == 0) {
         newNode->next = StrList->head;
@@ -156,7 +135,6 @@ void StrList_insertAt(StrList* StrList, const char* data, int index) {
     StrList->size++;
 }
 
-// Function to get the data of the first node in the StrList
 
 char* StrList_firstData(const StrList* StrList){
     if (StrList->head) {
@@ -165,36 +143,32 @@ char* StrList_firstData(const StrList* StrList){
     return NULL;
 }
 
-// Function to print the entire StrList
-
 void StrList_print(const StrList* StrList){
   if(StrList==NULL||StrList->head==NULL){
-    printf("\n");// If the list is empty or NULL, print a newline and return
+    printf("\n");
     return;
   }
     Node* current = StrList->head;
     if(current){
-        // Print the data of the first node without space
     printf("%s",current->data);
-    current = current->next;// Move to the next node
+    current = current->next;
      }
     while (current)
     {
-        printf(" %s",current->data);// Print the data of the current node with a space separator
-        current = current->next;// Move to the next node
+        printf(" %s",current->data);
+        current = current->next;
         
     }   
      printf("\n");
 }
 
-// Function to print the data at a specific index in the StrList
 void StrList_printAt(const StrList* Strlist,int index){
         Node* current = Strlist->head;
         for (int i = 0; i < index && current; i++) {
-        current = current->next; // Move to the node at the specified index
+        current = current->next;
     }
         if (current) {
-        printf("%s\n", current->data);// If the node exists, print its data followed by a newline
+        printf("%s\n", current->data);
     }
 }
 
@@ -203,8 +177,8 @@ int StrList_printLen(const StrList* Strlist){
      int amountChars =0;
      while (current)
      {
-        amountChars+=strlen(current->data);// Add the length of each node's data to the total
-        current=current->next;// Move to the next node
+        amountChars+=strlen(current->data);
+        current=current->next;
     
      }
      return amountChars;
@@ -215,10 +189,10 @@ int StrList_count(StrList* StrList, const char* data){
      int count=0;
      while (current)
      {
-        if(strcmp(current->data, data) == 0){  // Compare the data of each node with the given data
-            count++; // Increment count if a match is found
+        if(strcmp(current->data, data) == 0){
+            count++;
         }
-        current= current->next;// Move to the next node
+        current= current->next;
      }
      return count;
 }
@@ -230,15 +204,15 @@ void StrList_remove(StrList* StrList, const char* data) {
 
     while (current != NULL) {
         if (strcmp(current->data, data) == 0) {
-            if (current == StrList->head) { // If the node to remove is the head, update the head pointer
+            if (current == StrList->head) {
                 StrList->head = current->next;
                 StrList->size--;
             } else {
-                prev->next = current->next;  // Otherwise, bypass the current node
+                prev->next = current->next;
                 StrList->size--;
             }
             temp = current;
-            current = current->next; // Move to the next node
+            current = current->next;
             free(temp->data);
             free(temp);
         } else {
@@ -272,15 +246,15 @@ void StrList_removeAt(StrList* StrList, int index){
     }
 }
 StrList* StrList_clone(const StrList* StrList){
-    nweStrList* ret = StrList_alloc();/ Allocate memory for the new StrList
-    const Node* old = StrList->head; 
+    nweStrList* ret = StrList_alloc();
+    const Node* old = StrList->head;
     Node** copy = &(ret->head);
     ret->size = StrList->size;
 
     while(old) {
-        *copy = Node_alloc(old->data,NULL);// Create a new node with the same data
+        *copy = Node_alloc(old->data,NULL);
         old = old->next;
-        copy = &((*copy)->next);// Move to the next pointer in the copy list
+        copy = &((*copy)->next);
     }
     return ret;
 }
@@ -293,44 +267,40 @@ void StrList_reverse( StrList* StrList){
 
     while (current)
     {
-        next = current->next;// Store the next node
-        current->next = prev;// Reverse the link
+        next = current->next;
+        current->next = prev;
         prev = current;
         current = next;
     }
     
-    StrList->head=prev;// Update the head pointer to the last node (which is now the first)
+    StrList->head=prev;
     
 
 
 }
 
 void StrList_sort(StrList* StrList) {
-    int swapped; //to indicate whether any swaps were made during a pass
-    Node *ptr1; // Pointer for traversing the list
-    Node *lptr = NULL; // Pointer to mark the last node that was swapped during a pass
+    int swapped;
+    Node *ptr1;
+    Node *lptr = NULL;
 
     if (StrList->head == NULL)
         return;
 
     do {
-        swapped = 0;// Reset the swapped flag for each pass
-        ptr1 = StrList->head;// Start traversing from the head of the list
+        swapped = 0;
+        ptr1 = StrList->head;
 
         while (ptr1->next != lptr) {
-          // Traverse the list until the last swapped node (lptr)
-
             if (strcmp(ptr1->data, ptr1->next->data) > 0) {
-                // Compare the data of the current node with the data of its next node
-                // If the data of the current node is greater, swap their data
                 char* temp = ptr1->data;
                 ptr1->data = ptr1->next->data;
                 ptr1->next->data = temp;
-                swapped = 1; // Set swapped flag to indicate a swap was made
+                swapped = 1;
             }
-            ptr1 = ptr1->next;// Move to the next node
+            ptr1 = ptr1->next;
         }
-        lptr = ptr1;// Update lptr to the last node visited during this pass
+        lptr = ptr1;
     } while (swapped);
 }
 /*
@@ -349,8 +319,3 @@ int StrList_isSorted(StrList* StrList){
     }
     return 1;
 }
-
-
-
-
-
