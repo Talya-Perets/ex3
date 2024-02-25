@@ -86,10 +86,10 @@ int main() {
             isSort=StrList_isSorted(strList);
             
             if(isSort){
-                printf("true \n");
+                printf("true\n");
             }
             else{
-                printf("false \n");
+                printf("false\n");
             }
         
         
