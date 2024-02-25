@@ -145,6 +145,7 @@ char* StrList_firstData(const StrList* StrList){
 
 void StrList_print(const StrList* StrList){
   if(StrList==NULL||StrList->head==NULL){
+    printf("\n");
     return;
   }
     Node* current = StrList->head;
