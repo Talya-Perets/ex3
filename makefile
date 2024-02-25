@@ -1,6 +1,10 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 
+.PHONY: all clean
+
+all: StrList
+	
 StrList: Main.o StrList.o
 	$(CC) $(CFLAGS) Main.o StrList.o -o StrList
 
