@@ -182,32 +182,37 @@ void StrList_print(const StrList* StrList){
 }
 // Print the data at the specified index in the StrList
 void StrList_printAt(const StrList* Strlist,int index){
-        Node* current = Strlist->head;
+         Node* current = Strlist->head;// Start from the head of the list
         for (int i = 0; i < index && current; i++) {
-        current = current->next;
+        current = current->next;// Move to the next node
     }
+        // If current is not NULL, print the data at the specified index
         if (current) {
         printf("%s\n", current->data);
     }
 }
 
+// Return the total number of characters in all the data elements of the StrList
 int StrList_printLen(const StrList* Strlist){
-     Node* current = Strlist->head;
-     int amountChars =0;
+     Node* current = Strlist->head;// Start from the head of the list
+     int amountChars =0; // Initialize the total character count
      while (current)
      {
-        amountChars+=strlen(current->data);
-        current=current->next;
+        amountChars+=strlen(current->data); // Add length of current data to total
+        current=current->next;// Move to the next node
     
      }
      return amountChars;
 }
 
+// Count the occurrences of a specific data element in the StrList
 int StrList_count(StrList* StrList, const char* data){
+    // Start from the head of the list
      Node* current = StrList->head;
-     int count=0;
+     int count=0; // Initialize the count of occurrences
      while (current)
      {
+        // If current node's data the same  , increment count
         if(strcmp(current->data, data) == 0){
             count++;
         }
@@ -216,16 +221,21 @@ int StrList_count(StrList* StrList, const char* data){
      return count;
 }
 
+// Remove all occurrences of a specific data element from the StrList
 void StrList_remove(StrList* StrList, const char* data) {
-    Node* current = StrList->head;
-    Node* prev = NULL;
-    Node* temp;
+    Node* current = StrList->head; // Start from the head of the list
+    Node* prev = NULL; // Initialize pointer to prev node
+    Node* temp;  // Temporary node pointer for memory deallocation
+
 
     while (current != NULL) {
+        
+         // If current node's data the same  ,
         if (strcmp(current->data, data) == 0) {
+            // If current node is the head
             if (current == StrList->head) {
-                StrList->head = current->next;
-                StrList->size--;
+                StrList->head = current->next;// Update head to next node
+                StrList->size--; // Decrement the size of the list
             } else {
                 prev->next = current->next;
                 StrList->size--;
@@ -241,22 +251,25 @@ void StrList_remove(StrList* StrList, const char* data) {
     }
 }
 
-
+// Remove the node at the specified index from the StrList
 void StrList_removeAt(StrList* StrList, int index){
     Node* current =StrList->head;
     Node* prev=NULL;
     int count = 0;
+        // Traverse the list until reaching the specified index or end of list
     while(current != NULL && count < index){
-        prev=current;
-        current=current->next;
-        count++;
+        prev=current; // Save current node as previous
+        current=current->next; // Move to the next node
+        count++; // Increment the count of nodes visited
     }
+     // If current is NULL, index is out of range, so return
     if(current==NULL){
         return;
     }
+    // If current node is the head
     if(current==StrList->head){
-        StrList->head = current->next;
-        StrList->size--;
+        StrList->head = current->next; // Update head to next node
+        StrList->size--; // Decrement the size of the list
     }
     else{
     prev->next=current->next;
@@ -264,30 +277,32 @@ void StrList_removeAt(StrList* StrList, int index){
 
     }
 }
+
+// Create a  copy of the StrList
 StrList* StrList_clone(const StrList* StrList){
-    nweStrList* ret = StrList_alloc();
-    const Node* old = StrList->head;
-    Node** copy = &(ret->head);
-    ret->size = StrList->size;
+    nweStrList* ret = StrList_alloc(); // Allocate memory for new StrList
+    Node* old = StrList->head;  // Start from the head of original list
+    Node** copy = &(ret->head); // Pointer to pointer for updating copied list
+    ret->size = StrList->size; // Set size of copy List
 
     while(old) {
-        *copy = Node_alloc(old->data,NULL);
-        old = old->next;
-        copy = &((*copy)->next);
+        *copy = Node_alloc(old->data,NULL);  // Allocate memory for new node
+        old = old->next; // Move to the next node in original list
+        copy = &((*copy)->next); // Move to the next pointer in copied list
     }
     return ret;
 }
 
-
+// Reverse the order of nodes in the StrList
 void StrList_reverse( StrList* StrList){
-    Node* prev = NULL;
-    Node* current = StrList->head;
-    Node* next = NULL;
+    Node* prev = NULL; // Initialize pointer 
+    Node* current = StrList->head;// Start from the head of the list
+    Node* next = NULL;  // Initialize pointer
 
     while (current)
     {
-        next = current->next;
-        current->next = prev;
+        next = current->next; // Save next node
+        current->next = prev;  // Reverse the pointer
         prev = current;
         current = next;
     }
@@ -297,30 +312,33 @@ void StrList_reverse( StrList* StrList){
 
 
 }
-
+ 
+// Sort the StrList in lexicographical order
 void StrList_sort(StrList* StrList) {
-    int swapped;
-    Node *ptr1;
-    Node *lptr = NULL;
+    int swapped; // Flag to indicate whether swapping has occurred
+    Node *ptr; // Pointer for current node
+    Node *lptr = NULL; // Pointer for last checked node
 
+    // Check if the list is empty
     if (StrList->head == NULL)
         return;
-
+    //  bubble sort until no more swaps are needed
     do {
-        swapped = 0;
-        ptr1 = StrList->head;
+        swapped = 0; // Reset swapped flag
+        ptr = StrList->head;  // Start from the head of the list
 
-        while (ptr1->next != lptr) {
-            if (strcmp(ptr1->data, ptr1->next->data) > 0) {
-                char* temp = ptr1->data;
-                ptr1->data = ptr1->next->data;
-                ptr1->next->data = temp;
-                swapped = 1;
+        while (ptr->next != lptr) {
+            if (strcmp(ptr->data, ptr->next->data) > 0) {
+                // Compare adjacent nodes and swap if necessary
+                char* temp = ptr->data; // Swap data
+                ptr->data = ptr->next->data;
+                ptr->next->data = temp;
+                swapped = 1;// Set swapped flag
             }
-            ptr1 = ptr1->next;
+            ptr = ptr->next; // Move to the next node
         }
-        lptr = ptr1;
-    } while (swapped);
+        lptr = ptr;
+    } while (swapped); // Repeat until no more swaps are needed
 }
 /*
  * Checks if the given list is sorted in lexicographical order
@@ -328,13 +346,14 @@ void StrList_sort(StrList* StrList) {
  */
 
 int StrList_isSorted(StrList* StrList){
-    Node* current = StrList->head;
+    Node* current = StrList->head;// Start from the head of the list
     while (current&&current->next)
     {
+        // If any adjacent nodes are out of order, return 0 (not sorted)
         if(strcmp(current->next->data,current->data)<0){
             return 0;
         }
-        current=current->next;
+        current=current->next;// Move to the next node
     }
     return 1;
 }
